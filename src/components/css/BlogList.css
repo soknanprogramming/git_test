@@ -1,0 +1,11 @@
+.blog-list{
+    text-align: start !important;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.blog-list:hover{
+    border-radius: 6px;
+    background-color: yellowgreen;
+    /* margin-top: 0; */
+}
