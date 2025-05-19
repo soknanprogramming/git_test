@@ -3,10 +3,10 @@ import BlogList from './BlogList'
 import useFetch from './func/useFetch'
 const Home = () => {
     const { data, loading, error } = useFetch('http://localhost:3000/api/blogs')
-    console.log(`Home->data`)
-    console.log(data)
-    console.log(`Home->error`)
-    console.log(error)
+    // console.log(`Home->data`)
+    // console.log(data)
+    // console.log(`Home->error`)
+    // console.log(error)
     return (
         <div className="home">
             {loading && <div>Loading...</div>}

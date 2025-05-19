@@ -2,6 +2,7 @@
 import express from 'express';
 import cors from 'cors';
 import getDatabase from './database/getDatabase.mjs';
+import { ObjectId } from 'mongodb';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -35,6 +36,20 @@ app.get('/api/blogs', async (req, res) => {
         res.status(200).json(blogs);
     } catch (error) {
         console.error('Error fetching blogs:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+app.get('/api/blogs/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const blog = await db.collection('blogs').findOne({ _id: new ObjectId(id) });
+        if (!blog) {
+            return res.status(404).json({ error: 'Blog not found' });
+        }
+        res.status(200).json(blog);
+    } catch (error) {
+        console.error('Error fetching blog:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
