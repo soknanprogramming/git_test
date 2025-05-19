@@ -24,6 +24,7 @@ const BlogDetail = () => {
                 <>
                     <h1>{title}</h1>
                     <p>{context}</p>
+                    <button className="delete">Delete</button>
                 </>
             )}
         </div>
