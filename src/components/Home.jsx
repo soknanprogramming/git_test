@@ -1,12 +1,21 @@
 import './css/Home.css'
 import BlogList from './BlogList'
+import useFetch from './func/useFetch'
 const Home = () => {
+    const { data, loading, error } = useFetch('http://localhost:3000/api/blogs')
+    console.log(`Home->data`)
+    console.log(data)
+    console.log(`Home->error`)
+    console.log(error)
     return (
         <div className="home">
-            <BlogList title="All Blogs!" context="Welcome to the blog" />
-            <BlogList title="My Blog!" context="Welcome to my blog" />
+            {loading && <div>Loading...</div>}
+            {error && <div>{error.message}</div>}
+            {data && data.map((blog) => (
+                <BlogList blog={blog} key={blog._id}/>)
+            )}
         </div>
     )
 }
 
-export default Home;
+export default Home

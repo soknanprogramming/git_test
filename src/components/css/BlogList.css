@@ -4,6 +4,11 @@
     box-sizing: border-box;
 }
 
+a.blog-list{
+    text-decoration: none;
+    color: black;
+}
+
 .blog-list:hover{
     border-radius: 6px;
     background-color: yellowgreen;
