@@ -9,8 +9,11 @@ a.blog-list{
     color: black;
 }
 
-.blog-list:hover{
+.blog-list .blog-list:hover{
     border-radius: 6px;
-    background-color: yellowgreen;
-    /* margin-top: 0; */
+    border-bottom-style: solid;
+    border-right-style: solid;
+    border-color: green;
+    padding: 5px;
+    background-color: gainsboro;
 }

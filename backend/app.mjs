@@ -54,6 +54,20 @@ app.get('/api/blogs/:id', async (req, res) => {
     }
 });
 
+app.delete('/api/blogs/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await db.collection('blogs').deleteOne({ _id: new ObjectId(id) });
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: 'Blog not found' });
+        }
+        res.status(200).json({ message: 'Blog deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting blog:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 startServer();
 
 

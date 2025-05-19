@@ -1,30 +1,41 @@
 // components/BlogDetail.jsx
 import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import useFetch from './func/useFetch';
 import './css/BlogDetail.css';
+import { useNavigate } from 'react-router-dom';
 const BlogDetail = () => {
-    const [data, setData] = useState(null);
     const { id } = useParams();
+    const { data, loading, error } = useFetch(`http://localhost:3000/api/blogs/${id}`);
     const {title, context} = data || {};
-    console.log(id)
-    useEffect(() => {
-        fetch(`http://localhost:3000/api/blogs/${id}`)
-        .then(res => res.json())
-        .then(data => {
-            setData(data)
-            console.log(data)})
-        .catch(err => console.log(err))
-        }, [id])
+    const navigate = useNavigate();
+    const handleDelete = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/blogs/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.ok) {
+                navigate('/');
+            } else {
+                console.error('Failed to delete the blog');
+            }
+        } catch (err) {
+            console.error('Error deleting blog:', err);
+        }
+    }
     
     return(
         <div className="blog-detail">
-            {data === null && <div>Loading...</div>}
+            {loading && <div>Loading...</div>}
+            {error && <div>{error.message}</div>}
             {data === undefined && <div>Blog not found</div>}
             {data && (
                 <>
                     <h1>{title}</h1>
                     <p>{context}</p>
-                    <button className="delete">Delete</button>
+                    <button className="delete" onClick={handleDelete}>Delete</button>
                 </>
             )}
         </div>
