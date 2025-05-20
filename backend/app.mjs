@@ -68,6 +68,21 @@ app.delete('/api/blogs/:id', async (req, res) => {
     }
 });
 
+app.post('/api/blogs', async (req, res) => {
+    const { title, content } = req.body;
+    try {
+        if (!title || !content) {
+            return res.status(400).json({ error: 'Title and content are required' });
+        }
+        const result = await db.collection('blogs').insertOne({ title, content });
+        res.status(201).json(result);
+    }
+    catch (error) {
+        console.error('Error creating blog:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 startServer();
 
 
