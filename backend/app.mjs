@@ -69,12 +69,12 @@ app.delete('/api/blogs/:id', async (req, res) => {
 });
 
 app.post('/api/blogs', async (req, res) => {
-    const { title, content } = req.body;
+    const { title, context } = req.body;
     try {
-        if (!title || !content) {
+        if (!title || !context) {
             return res.status(400).json({ error: 'Title and content are required' });
         }
-        const result = await db.collection('blogs').insertOne({ title, content });
+        const result = await db.collection('blogs').insertOne({ title, context });
         res.status(201).json(result);
     }
     catch (error) {

@@ -1,17 +1,33 @@
 // components/AddBlog.jsx
 import './css/AddBlog.css';
+import { useNavigate } from 'react-router-dom';
 const AddBlog = () => {
+    const navigate = useNavigate();
     const handleSubmit = (event) => {
         event.preventDefault();
         const title = event.target.title.value;
-        const content = event.target.content.value;
+        const context = event.target.context.value;
 
-        // Here you would typically send the data to your server
-        console.log('Blog Title:', title);
-        console.log('Blog Content:', content);
-
-        // Reset the form after submission
-        event.target.reset();
+        const createBlog = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/api/blogs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title, context })
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                console.log('Blog created successfully:', data);
+            } catch (error) {
+                console.error('Error creating blog:', error);
+            }
+        }
+        createBlog();
+        navigate('/');
     };
     return (
         <div className="add-blog-container">
@@ -22,10 +38,10 @@ const AddBlog = () => {
                     <input type="text" id="title" name="title" required />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="content">Content:</label>
+                    <label htmlFor="context">Context:</label>
                     <textarea
-                        id="content"
-                        name="content"
+                        id="context"
+                        name="context"
                         required
                         rows="1"
                         onInput={e => {
